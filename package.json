@@ -22,7 +22,9 @@
   "dependencies": {
     "express": "~3.2.4",
     "hbs": "~2.1.0",
-    "sqlite3": "~2.1.7"
+    "sqlite3": "~2.1.7",
+    "underscore": "1.4.4",
+    "sinon": "1.7.2"
   },
   "devDependencies": {}
 }

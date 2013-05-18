@@ -82,6 +82,22 @@
     },
     "sqlite3": {
       "version": "2.1.7"
+    },
+    "underscore": {
+      "version": "1.4.4"
+    },
+    "sinon": {
+      "version": "1.7.2",
+      "dependencies": {
+        "buster-format": {
+          "version": "0.5.5",
+          "dependencies": {
+            "buster-core": {
+              "version": "0.6.4"
+            }
+          }
+        }
+      }
     }
   }
 }

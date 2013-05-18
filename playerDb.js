@@ -2,6 +2,14 @@ var sqlite = require('sqlite3'),
     db = new sqlite.Database('player-db');
 
 function createPlayer(options, callback){
+    if(!options.fobId){
+        throw new Error('fobId must be supplied');
+    }
+
+    if(!options.name){
+        throw new Error('name must be supplied');
+    }
+
     db.exec(
         'INSERT INTO players VALUES ("'+ options.fobId +'", "'+ options.name +'")',
         function(error){
@@ -23,7 +31,7 @@ function getPlayer(options, callback){
 
     if(options.fobId){
         sql += 'fobId="'+options.fobId+'"';
-    } else if(options.name){
+    }else if(options.name){
         sql += 'name="'+options.name+'"';
     }
 
