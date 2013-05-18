@@ -15,14 +15,14 @@ function createPlayer(options, callback){
 }
 
 function getPlayer(options, callback){
-    var sql = 'SELECT fob_id, name FROM players WHERE ';
+    var sql = 'SELECT fobId, name FROM players WHERE ';
 
-    if(!options.name || !options.fobId){
-        return null;
+    if(!options.name && !options.fobId){
+        return callback(new Error('must supply fobId or name'));
     }
 
     if(options.fobId){
-        sql += 'fob_id="'+options.fobId+'"';
+        sql += 'fobId="'+options.fobId+'"';
     } else if(options.name){
         sql += 'name="'+options.name+'"';
     }

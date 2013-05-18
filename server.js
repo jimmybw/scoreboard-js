@@ -18,7 +18,11 @@ application = (function(){
     });
 
     app.get('/players', function(req, res){
-        var player = players.getPlayer(req.query, function(err, player){
+        players.getPlayer(req.query, function(err, player){
+            if(err){
+                res.send('bugger');
+            }
+
             return res.send(player);
         });
     });

@@ -1,13 +1,28 @@
 {
   "name": "foos_sql",
   "version": "0.0.0",
-  "description": "software for foosball game",
+  "description": "ERROR: No README.md file found!",
   "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/drvanhalen/what-the-foos.git"
+  },
+  "keywords": [
+    "foosball"
+  ],
   "author": "Chris Skilton",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.2.4",
+    "hbs": "~2.1.0",
+    "sqlite3": "~2.1.7"
+  },
+  "devDependencies": {}
 }
