@@ -1,21 +1,24 @@
 var sqlite = require('sqlite3'),
     db = new sqlite.Database('player-db');
 
+//will leave here commented out for dev whilst structure may change
+//db.exec('CREATE TABLE players (fobId TEXT NOT NULL PRIMARY KEY, name TEXT NOT NULL)');
+
 function createPlayer(options, callback){
     if(!options.fobId){
-        throw new Error('fobId must be supplied');
+        return callback(new Error('fobId must be supplied'));
     }
 
     if(!options.name){
-        throw new Error('name must be supplied');
+        return callback(new Error('name must be supplied'));
     }
 
     db.exec(
         'INSERT INTO players VALUES ("'+ options.fobId +'", "'+ options.name +'")',
         function(error){
             if(error){
-                console.log('aint put sheeiiittt');
-                throw error;
+                console.log(error.message);
+                return callback(error);
             }
 
             console.log('added', options);
@@ -39,7 +42,7 @@ function getPlayer(options, callback){
         sql,
         function(error, player){
             if(error){
-                throw error;
+                return callback(error);
             }
 
             console.log(player);

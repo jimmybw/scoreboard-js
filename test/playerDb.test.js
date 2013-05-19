@@ -29,55 +29,41 @@ describe('playerDb', function(){
     });
 
     describe('creating players', function(){
-        it('should error if no fobId is passed to createPlayer', function(){
-            var error;
+        it('should error if no fobId is passed to createPlayer', function(done){
+            playerDb.createPlayer({name: 'bob'}, function(error){
+                assert.equal(_(error).isUndefined(), false);
+                assert.equal(error.message, "fobId must be supplied");
+                assert.equal(execSpy.calledOnce, false);
 
-            try{
-                playerDb.createPlayer({name: 'bob'});
-            }catch(e){
-                error = e;
-            }
-
-            assert.equal(_(error).isUndefined(), false);
-            assert.equal(error.message, "fobId must be supplied");
-            assert.equal(execSpy.calledOnce, false);
+                done();
+            });
         });
 
-        it('should error if no name is passed to createPlayer', function(){
-            var error;
+        it('should error if no name is passed to createPlayer', function(done){
+            playerDb.createPlayer({fobId: '123'}, function(error){
+                assert.equal(_(error).isUndefined(), false);
+                assert.equal(error.message, "name must be supplied");
+                assert.equal(execSpy.calledOnce, false);
 
-            try{
-                playerDb.createPlayer({fobId: '123'});
-            }catch(e){
-                error = e;
-            }
-
-            assert.equal(_(error).isUndefined(), false);
-            assert.equal(error.message, "name must be supplied");
-            assert.equal(execSpy.calledOnce, false);
+                done();
+            });
         });
 
         it('should make a database exec call when createPlayer called', function(){
-            playerDb.createPlayer({fobId: '9999', name: 'bob'});
+            playerDb.createPlayer({fobId: '9999', name: 'bob'}, function(){});
             assert.equal(execSpy.calledOnce, true);
         });
     });
 
     describe('getting players', function(){
-        it('should error if no fobId or name supplied to getPlayer', function(){
-            var error;
+        it('should error if no fobId or name supplied to getPlayer', function(done){
+            playerDb.getPlayer({}, function(error){
+                assert.equal(_(error).isUndefined(), false);
+                assert.equal(error.message, "must supply fobId or name");
+                assert.equal(getSpy.calledOnce, false);
 
-            try{
-                playerDb.getPlayer({}, function(err){
-                    error = err;
-                });
-            }catch(e){
-                error = e;
-            }
-
-            assert.equal(_(error).isUndefined(), false);
-            assert.equal(error.message, "must supply fobId or name");
-            assert.equal(getSpy.calledOnce, false);
+                done();
+            });
         });
 
         it('should make a database exec call when getPlayer called with fobId', function(){

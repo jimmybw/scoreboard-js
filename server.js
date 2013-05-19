@@ -18,9 +18,9 @@ application = (function(){
     });
 
     app.get('/players', function(req, res){
-        players.getPlayer(req.query, function(err, player){
-            if(err){
-                res.send('bugger');
+        players.getPlayer(req.query, function(error, player){
+            if(error){
+                res.send(500, error.message);
             }
 
             return res.send(player);
@@ -33,9 +33,20 @@ application = (function(){
         players.createPlayer({
             fobId: playerDetails.fobId,
             name: playerDetails.name
-        });
+        }, function(error){
+            if(error){
+                return res.send(500, error.message);
+            }
 
-        res.send(playerDetails);
+            return res.send(playerDetails);
+        });
+    });
+
+    app.use(function(error, req, res, next){
+        if(error){
+            console.log(error.message);
+            res.send(500, error.message);
+        }
     });
 
     app.listen(3000);
