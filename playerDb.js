@@ -1,9 +1,9 @@
 var sqlite = require('sqlite3'),
-    db = new sqlite.Database('player-db');
+    db = new sqlite.Database('foos-db');
 
-//will leave here commented out for dev whilst structure may change
-//db.exec('CREATE TABLE players (fobId TEXT NOT NULL PRIMARY KEY, name TEXT NOT NULL)');
-
+/*//will leave here commented out for dev whilst structure may change
+db.exec('CREATE TABLE players (fobId TEXT NOT NULL PRIMARY KEY, name TEXT NOT NULL)');
+*/
 function createPlayer(options, callback){
     if(!options.fobId){
         return callback(new Error('fobId must be supplied'));
@@ -22,6 +22,7 @@ function createPlayer(options, callback){
             }
 
             console.log('added', options);
+            return callback();
         });
 }
 
@@ -50,7 +51,18 @@ function getPlayer(options, callback){
         });
 }
 
+function clearPlayerDatabase(callback){
+    db.exec('DELETE FROM players', function(error){
+        if(error){
+            return callback(error);
+        }
+
+        return callback();
+    });
+}
+
 module.exports = {
     createPlayer: createPlayer,
-    getPlayer: getPlayer
+    getPlayer: getPlayer,
+    clearPlayerDatabase: clearPlayerDatabase
 };

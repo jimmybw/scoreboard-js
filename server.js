@@ -1,7 +1,8 @@
 var express = require('express'),
     hbs = require('hbs'),
     application,
-    players = require('./playerDb');
+    players = require('./playerDb'),
+    gameRouting = require('./gameDb');
 
 application = (function(){
     var app = express();
@@ -12,6 +13,9 @@ application = (function(){
       layout: false
     });
     app.use(express.static(__dirname + '/public'));
+    app.use(express.bodyParser());
+
+    app.use('/game', gameRouting());
 
     app.get('/show_scores', function(req, res){
         res.render('foos.hbs', {});
@@ -23,12 +27,22 @@ application = (function(){
                 res.send(500, error.message);
             }
 
-            return res.send(player);
+            return res.send(200, player);
+        });
+    });
+
+    app.get('/players_cleardb', function(req, res){
+        players.clearPlayerDatabase(function(error){
+            if(error){
+                res.send(500, error.message);
+            }
+
+            return res.send(200, 'player db cleared');
         });
     });
 
     app.post('/players', function(req, res){
-        var playerDetails = req.query;
+        var playerDetails = req.body;
 
         players.createPlayer({
             fobId: playerDetails.fobId,
@@ -38,8 +52,16 @@ application = (function(){
                 return res.send(500, error.message);
             }
 
-            return res.send(playerDetails);
+            return res.send(200);
         });
+    });
+
+    app.post('/login', function(req, res){
+        var positionData = req.body;
+
+        console.log('positionData');
+        console.dir(positionData);
+        res.send(200);
     });
 
     app.use(function(error, req, res, next){
