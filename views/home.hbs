@@ -1,0 +1,15 @@
+<html>
+<head></head>
+<body>
+    <h1>electrofoos</h1>
+    <div id="main"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://remus:3000');
+
+        socket.on('update', function(data){
+            document.getElementById('main').innerHTML = JSON.stringify(data);
+        });
+    </script>
+</body>
+</html>
