@@ -2,15 +2,23 @@
 
 var application,
     express = require('express'),
-    gameRouting = require('./routing/game');
+    gameRouting = require('./routing/game'),
+    socketio = require('socket.io');
 
 application = (function(){
-    var app = express();
+    var app = express(),
+        server = require('http').createServer(app),
+        io = socketio.listen(server);
 
+    app.set('view engine', 'hbs');
     app.use(express.static(__dirname + '/public'));
     app.use(express.bodyParser());
 
-    app.use('/game', gameRouting());
+    app.use('/game', gameRouting(io));
+
+    app.use('/', function(req, res, next){
+        res.render('home');
+    });
 
     app.use(function(error, req, res, next){
         if(error){
@@ -19,5 +27,5 @@ application = (function(){
         }
     });
 
-    app.listen(3000);
+    server.listen(3000);
 })();

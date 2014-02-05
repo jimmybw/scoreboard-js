@@ -1,0 +1,30 @@
+{
+  "name": "what-the-foos",
+  "version": "0.0.0",
+  "homepage": "https://github.com/drvanhalen/what-the-foos",
+  "authors": [
+    "Chris Skilton <chriss@brandwatch.com>"
+  ],
+  "description": "electrofoos node app",
+  "main": "server.js",
+  "keywords": [
+    "foosball",
+    "shoal",
+    "snitch",
+    "photo",
+    "wallbanger"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public/bower_components"
+  ],
+  "dependencies": {
+    "underscore": "~1.5.2"
+  }
+}

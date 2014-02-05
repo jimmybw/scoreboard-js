@@ -2,14 +2,19 @@
 
 var express= require('express'),
     Router = express.Router,
-    Game = require('../js/game');
+    Game = require('../js/game'),
+    socketio = require('socket.io');
 
-function returnGameState(res, game){
-    res.send(game.getGameState());
+function returnGameStateAndBroadcastState(io, res, game){
+    var gameState = game.getGameState();
+
+    res.send(gameState);
+    io.sockets.emit('update', gameState);
 }
 
-module.exports = function(){
-    var router = new Router();
+module.exports = function(socket){
+    var router = new Router(),
+        io = socket;
 
     /*
         LOGS A GOAL TO THE GAME
@@ -22,7 +27,7 @@ module.exports = function(){
 
         game.goal(goalData);
 
-        returnGameState(res, game);
+        returnGameStateAndBroadcastState(io, res, game);
     });
 
     /*
@@ -36,7 +41,7 @@ module.exports = function(){
 
         game.joinGame(playerData);
 
-        returnGameState(res, game);
+        returnGameStateAndBroadcastState(io, res, game);
     });
 
     /*
@@ -45,14 +50,14 @@ module.exports = function(){
     router.get('/reset', function(req, res){
         Game.resetGame();
 
-        returnGameState(res, Game.getGame());
+        returnGameStateAndBroadcastState(io, res, Game.getGame());
     });
 
     /*
         RETURNS CURRENT GAME
     */
     router.get('/', function(req, res){
-        returnGameState(res, Game.getGame());
+        returnGameStateAndBroadcastState(io, res, Game.getGame());
     });
 
     return router.middleware;

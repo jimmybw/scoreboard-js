@@ -1,0 +1,63 @@
+<html>
+<head></head>
+<body>
+    <style type="text/css">
+        @font-face {
+            font-family: "scoreboard";
+            src: url(css/fonts/scoreboard.ttf) format("truetype");
+        }
+        * {
+            font-family: "scoreboard", Verdana, Tahoma;
+            color: orange;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-align: center;
+        }
+
+        body {
+            background-color: #1D1818;
+        }
+
+        div.app {
+            width: 60%;
+            padding: 5%;
+            margin-top: 5%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: black;
+        }
+
+        div.scoreEntry {
+            font-size: 5em;
+        }
+
+        div.score {
+            float: right;
+        }
+
+        div.team {
+            float: left;
+        }
+
+        div.clearfloat {
+            clear: both;
+        }
+    </style>
+        <div class="app">
+        <h1>electrofoos</h1>
+        <div id="main"></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script>
+        var socket = io.connect('http://remus:3000'),
+            mainGameTemplate = '<% _.each(scores, function(teamData) { %> <div class="scoreEntry"><div class="team"><%= teamData.team %></div><div class="score"><%= teamData.score %></div></div><div class="clearfloat"></div> <% }); %>';
+
+        socket.on('update', function(data){
+            document.getElementById('main').innerHTML = _.template(mainGameTemplate, data);
+        });
+    </script>
+</body>
+</html>
