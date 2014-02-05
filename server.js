@@ -4,7 +4,8 @@ var application,
     express = require('express'),
     gameRouting = require('./routing/game'),
     socketio = require('socket.io'),
-    os = require('os');
+    os = require('os'),
+    Game = require('./js/game');
 
 application = (function(){
     var app = express(),

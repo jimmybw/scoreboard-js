@@ -9,12 +9,20 @@ function returnGameStateAndBroadcastState(io, res, game){
     var gameState = game.getGameState();
 
     res.send(gameState);
+    emitUpdatedGameState(io, gameState);
+}
+
+function emitUpdatedGameState(io, gameState){
     io.sockets.emit('update', gameState);
 }
 
 module.exports = function(socket){
     var router = new Router(),
         io = socket;
+
+    io.sockets.on('connection', function(){
+        emitUpdatedGameState(io, Game.getGame().getGameState());
+    });
 
     /*
         LOGS A GOAL TO THE GAME
