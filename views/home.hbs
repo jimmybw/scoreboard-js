@@ -52,7 +52,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script>
-        var socket = io.connect('http://remus:3000'),
+        var socket = io.connect('http://{{hostName}}'),
             mainGameTemplate = '<% _.each(scores, function(teamData) { %> <div class="scoreEntry"><div class="team"><%= teamData.team %></div><div class="score"><%= teamData.score %></div></div><div class="clearfloat"></div> <% }); %>';
 
         socket.on('update', function(data){
