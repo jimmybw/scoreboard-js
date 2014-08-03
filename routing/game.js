@@ -3,9 +3,10 @@
 var express= require('express'),
     Router = express.Router,
     Game = require('../js/game'),
-    socketio = require('socket.io');
+    socketio = require('socket.io'),
+    appConfig = require('../appConfig');
 
-var AUTH_TOKEN = 'Basic thefooser';
+var AUTH_TOKEN = appConfig['auth-token'] || 'Basic thefooser';
 
 function returnGameStateAndBroadcastState(io, res, game){
     var gameState = game.getGameState();
@@ -17,7 +18,6 @@ function returnGameStateAndBroadcastState(io, res, game){
 function emitUpdatedGameState(io, gameState){
     io.sockets.emit('update', gameState);
 }
-
 
 function authenticate(req, res, next){
     var auth = req.headers.authorization;
