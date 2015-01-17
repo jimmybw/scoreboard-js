@@ -5,7 +5,8 @@ var application,
     gameRouting = require('./routing/game'),
     socketio = require('socket.io'),
     os = require('os'),
-    Game = require('./js/game');
+    Game = require('./js/game'),
+    appConfig = require('./appConfig');
 
 application = (function(){
     var app = express(),
@@ -20,7 +21,7 @@ application = (function(){
 
     app.use('/', function(req, res, next){
         res.render('home', {
-            hostName: os.hostname() + ':3000'
+            hostName: appConfig.host || os.hostname() + ':3000'
         });
     });
 
