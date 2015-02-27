@@ -1,18 +1,14 @@
 {
-  "name": "what-the-foos",
+  "name": "scoreboard-js",
   "version": "0.0.0",
   "homepage": "https://github.com/drvanhalen/what-the-foos",
   "authors": [
     "Chris Skilton <chriss@brandwatch.com>"
   ],
-  "description": "electrofoos node app",
+  "description": "scoreboard app",
   "main": "server.js",
   "keywords": [
-    "foosball",
-    "shoal",
-    "snitch",
-    "photo",
-    "wallbanger"
+    "scoreboard"
   ],
   "license": "MIT",
   "private": true,

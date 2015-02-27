@@ -60,12 +60,12 @@ function createGameInstance(){
         });
     }
 
-    function goalScored(goalData){
+    function score(scoreData){
         var game = getGameState(),
             scores = game.scores,
-            teamThatScored = getScoreByTeamName(goalData.team) || createScoreForTeam(goalData.team);
+            teamThatScored = getScoreByTeamName(scoreData.team) || createScoreForTeam(scoreData.team);
 
-        teamThatScored.score += goalData.count;
+        teamThatScored.score += scoreData.count;
     }
 
     function createScoreForTeam(teamName){
@@ -84,7 +84,7 @@ function createGameInstance(){
     return {
         joinGame: joinGame,
         getGameState: getGameState,
-        goal: goalScored
+        score: score
     };
 }
 

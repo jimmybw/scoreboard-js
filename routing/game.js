@@ -5,7 +5,7 @@ var express = require('express'),
     socketio = require('socket.io'),
     appConfig = require('../appConfig');
 
-var AUTH_TOKEN = appConfig['auth-token'] || 'Basic thefooser';
+var AUTH_TOKEN = appConfig['auth-token'] || 'Basic scoreboard';
 
 function returnGameStateAndBroadcastState(io, res, game){
     var gameState = game.getGameState();
@@ -39,15 +39,15 @@ module.exports = function(socket){
     router.all('*', authenticate);
 
     /*
-        LOGS A GOAL TO THE GAME
+        LOGS A SCORE TO THE GAME
         @string - team: the name of the team that scored
-        @number - count: the number of goals scored
+        @number - count: the number to score
     */
-    router.post('/goal', function(req, res){
-        var goalData = req.body,
+    router.post('/score', function(req, res){
+        var scoreData = req.body,
             game = Game.getGame();
 
-        game.goal(goalData);
+        game.score(scoreData);
 
         returnGameStateAndBroadcastState(io, res, game);
     });

@@ -1,5 +1,5 @@
 {
-  "name": "electrofoos",
+  "name": "scoreboard-js",
   "version": "0.0.0",
   "description": "ERROR: No README.md file found!",
   "main": "server.js",
@@ -16,7 +16,7 @@
     "url": "git://github.com/drvanhalen/what-the-foos.git"
   },
   "keywords": [
-    "foosball"
+    "scoreboard"
   ],
   "author": "Chris Skilton",
   "license": "BSD",
