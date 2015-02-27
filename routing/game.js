@@ -1,7 +1,6 @@
 'use strict';
 
-var express= require('express'),
-    Router = express.Router,
+var express = require('express'),
     Game = require('../js/game'),
     socketio = require('socket.io'),
     appConfig = require('../appConfig');
@@ -30,15 +29,14 @@ function authenticate(req, res, next){
 }
 
 module.exports = function(socket){
-    var router = new Router(),
+    var router = new express.Router(),
         io = socket;
 
     io.sockets.on('connection', function(){
         emitUpdatedGameState(io, Game.getGame().getGameState());
     });
 
-    router.get('*', authenticate);
-    router.post('*', authenticate);
+    router.all('*', authenticate);
 
     /*
         LOGS A GOAL TO THE GAME
@@ -84,6 +82,5 @@ module.exports = function(socket){
         returnGameStateAndBroadcastState(io, res, Game.getGame());
     });
 
-    return router.middleware;
+    return router;
 };
-

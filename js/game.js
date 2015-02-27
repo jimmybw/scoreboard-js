@@ -5,100 +5,98 @@
     #implementing a singleton module pattern
     #exposes `getGame` function to return game instance
 */
-module.exports = (function gameSingleton(){
-    var instance;
+var instance;
 
-    function createGameInstance(){
-        var DEFAULT_GAME_STATE = {
-                players: [],
-                scores: []
-            },
-            gameState = DEFAULT_GAME_STATE;
+function createGameInstance(){
+    var DEFAULT_GAME_STATE = {
+            players: [],
+            scores: []
+        },
+        gameState = DEFAULT_GAME_STATE;
 
-        function getGameState(){
-            return gameState;
-        }
+    function getGameState(){
+        return gameState;
+    }
 
-        function joinGame(playerData){
-            var game = getGameState();
+    function joinGame(playerData){
+        var game = getGameState();
 
-            addPlayerToGame(playerData);
-        }
+        addPlayerToGame(playerData);
+    }
 
-        function addPlayerToGame(playerData){
-            var game = getGameState(),
-                existingPlayersWithSameName = game.players.filter(function(player){
-                    return player.name === playerData.name;
-                });
-
-            if (!existingPlayersWithSameName.length){
-                game.players.push(playerData);
-            }
-
-            updateScoresData();
-        }
-
-        function getScoreByTeamName(teamName){
-            var game = getGameState(),
-                scores = game.scores;
-
-            return scores.filter(function(score){
-                return score.team === teamName;
-            })[0];
-        }
-
-        function updateScoresData(){
-            var game = getGameState(),
-                players = game.players,
-                scores = game.scores;
-
-            players.forEach(function(player){
-                var playersTeam = getScoreByTeamName(player.team);
-
-                if(!playersTeam){
-                    createScoreForTeam(player.team);
-                }
+    function addPlayerToGame(playerData){
+        var game = getGameState(),
+            existingPlayersWithSameName = game.players.filter(function(player){
+                return player.name === playerData.name;
             });
+
+        if (!existingPlayersWithSameName.length){
+            game.players.push(playerData);
         }
 
-        function goalScored(goalData){
-            var game = getGameState(),
-                scores = game.scores,
-                teamThatScored = getScoreByTeamName(goalData.team) || createScoreForTeam(goalData.team);
+        updateScoresData();
+    }
 
-            teamThatScored.score += goalData.count;
-        }
+    function getScoreByTeamName(teamName){
+        var game = getGameState(),
+            scores = game.scores;
 
-        function createScoreForTeam(teamName){
-            var game = getGameState(),
-                scores = game.scores,
-                score = {
-                    team: teamName,
-                    score: 0
-                };
+        return scores.filter(function(score){
+            return score.team === teamName;
+        })[0];
+    }
 
-            scores.push(score);
+    function updateScoresData(){
+        var game = getGameState(),
+            players = game.players,
+            scores = game.scores;
 
-            return score;
-        }
+        players.forEach(function(player){
+            var playersTeam = getScoreByTeamName(player.team);
 
-        return {
-            joinGame: joinGame,
-            getGameState: getGameState,
-            goal: goalScored
-        };
+            if(!playersTeam){
+                createScoreForTeam(player.team);
+            }
+        });
+    }
+
+    function goalScored(goalData){
+        var game = getGameState(),
+            scores = game.scores,
+            teamThatScored = getScoreByTeamName(goalData.team) || createScoreForTeam(goalData.team);
+
+        teamThatScored.score += goalData.count;
+    }
+
+    function createScoreForTeam(teamName){
+        var game = getGameState(),
+            scores = game.scores,
+            score = {
+                team: teamName,
+                score: 0
+            };
+
+        scores.push(score);
+
+        return score;
     }
 
     return {
-        getGame: function getGame(){
-            if(!instance){
-                instance = createGameInstance();
-            }
-
-            return instance;
-        },
-        resetGame: function resetGame(){
-            instance = null;
-        }
+        joinGame: joinGame,
+        getGameState: getGameState,
+        goal: goalScored
     };
-})();
+}
+
+module.exports = {
+    getGame: function getGame(){
+        if(!instance){
+            instance = createGameInstance();
+        }
+
+        return instance;
+    },
+    resetGame: function resetGame(){
+        instance = null;
+    }
+};

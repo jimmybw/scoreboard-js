@@ -1,36 +1,35 @@
 'use strict';
 
-var application,
-    express = require('express'),
-    gameRouting = require('./routing/game'),
-    socketio = require('socket.io'),
-    os = require('os'),
-    Game = require('./js/game'),
-    appConfig = require('./appConfig');
+var express = require('express');
+var bodyParser = require('body-parser');
+var socketio = require('socket.io');
+var os = require('os');
 
-application = (function(){
-    var app = express(),
-        server = require('http').createServer(app),
-        io = socketio.listen(server);
+var app = express();
+var server = require('http').createServer(app);
+var io = socketio.listen(server);
 
-    app.set('view engine', 'hbs');
-    app.use(express.static(__dirname + '/public'));
-    app.use(express.bodyParser());
+var appConfig = require('./appConfig');
+var Game = require('./js/game');
+var gameRouting = require('./routing/game');
 
-    app.use('/game', gameRouting(io));
+app.set('view engine', 'hbs');
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
 
-    app.use('/', function(req, res, next){
-        res.render('home', {
-            hostName: appConfig.host || os.hostname() + ':3000'
-        });
+app.use('/game', gameRouting(io));
+
+app.use('/', function(req, res, next){
+    res.render('home', {
+        hostName: appConfig.host || os.hostname() + ':3000'
     });
+});
 
-    app.use(function(error, req, res, next){
-        if(error){
-            console.log(error.message);
-            res.send(500, error.message);
-        }
-    });
+app.use(function(error, req, res, next){
+    if(error){
+        console.log(error.message);
+        res.send(500, error.message);
+    }
+});
 
-    server.listen(3000);
-})();
+server.listen(3000);
