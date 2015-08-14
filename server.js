@@ -21,7 +21,7 @@ app.use('/game', gameRouting(io));
 
 app.use('/', function(req, res, next){
     res.render('home', {
-        hostName: appConfig.host || os.hostname() + ':' + (process.env.PORT || 5000)
+        hostName: appConfig.host || os.hostname()
     });
 });
 
